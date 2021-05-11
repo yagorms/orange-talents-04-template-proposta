@@ -11,6 +11,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/proposta")
@@ -21,14 +22,21 @@ public class PropostaSalvaController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<PropostaDTO> cadastrar (@RequestBody @Valid PropostaForm form, UriComponentsBuilder uriComponentsBuilder){
+    public ResponseEntity<?> cadastrar (@RequestBody @Valid PropostaForm form, UriComponentsBuilder uriComponentsBuilder){
         Proposta proposta = form.converter(propostaRepository);
-        if (proposta != null){
+
+        Optional<Proposta> possivelProposta = propostaRepository.findByDocumento(form.getDocumento());
+
+        if (possivelProposta.isPresent()){
+
+            return ResponseEntity.unprocessableEntity().body("Já existe uma proposta para esse documento");
+        }
+        else {
             propostaRepository.save(proposta);
 
             URI uri = uriComponentsBuilder.path("/proposta/{id}").buildAndExpand(proposta.getId()).toUri();
             return ResponseEntity.created(uri).body(new PropostaDTO(proposta));
+
         }
-        else return ResponseEntity.badRequest().build();
     }
 }
