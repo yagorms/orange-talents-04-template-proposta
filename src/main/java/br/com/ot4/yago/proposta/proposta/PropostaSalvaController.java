@@ -1,5 +1,8 @@
 package br.com.ot4.yago.proposta.proposta;
 
+import br.com.ot4.yago.proposta.proposta.Feign.RestricaoClient;
+import br.com.ot4.yago.proposta.proposta.Feign.VerificaRestricaoRequest;
+import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +23,9 @@ public class PropostaSalvaController {
     @Autowired
     private PropostaRepository propostaRepository;
 
+    @Autowired
+    private RestricaoClient restricaoClient;
+
     @PostMapping
     @Transactional
     public ResponseEntity<?> cadastrar (@RequestBody @Valid PropostaForm form, UriComponentsBuilder uriComponentsBuilder){
@@ -33,6 +39,19 @@ public class PropostaSalvaController {
         }
         else {
             propostaRepository.save(proposta);
+
+            try{
+                restricaoClient.verificaRestricao(new VerificaRestricaoRequest(proposta));
+                proposta.setEstadoProposta(EstadoProposta.ELEGIVEL);
+
+            } catch (FeignException e){
+                if (e.status() == 422){
+                    proposta.setEstadoProposta(EstadoProposta.NAO_ELEGIVEL);
+                }
+                else {
+                    throw e;
+                }
+            }
 
             URI uri = uriComponentsBuilder.path("/proposta/{id}").buildAndExpand(proposta.getId()).toUri();
             return ResponseEntity.created(uri).body(new PropostaDTO(proposta));

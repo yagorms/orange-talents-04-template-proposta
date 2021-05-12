@@ -57,6 +57,6 @@ public class PropostaForm {
     }
 
     public Proposta converter(PropostaRepository propostaRepository) {
-        return new Proposta(documento, email, nome,endereco, salario);
+        return new Proposta(documento, email, nome, endereco, salario);
     }
 }
