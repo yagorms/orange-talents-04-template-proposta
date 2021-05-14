@@ -72,4 +72,5 @@ public class Proposta {
     public Cartao getCartao() {
         return cartao;
     }
+
 }
