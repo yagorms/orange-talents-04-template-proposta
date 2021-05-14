@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.Optional;
@@ -27,7 +26,7 @@ public class PropostaSalvaController {
     private RestricaoClient restricaoClient;
 
     @PostMapping
-    @Transactional
+
     public ResponseEntity<?> cadastrar (@RequestBody @Valid PropostaForm form, UriComponentsBuilder uriComponentsBuilder){
         Proposta proposta = form.converter(propostaRepository);
 
@@ -52,6 +51,7 @@ public class PropostaSalvaController {
                     throw e;
                 }
             }
+            propostaRepository.save(proposta);
 
             URI uri = uriComponentsBuilder.path("/proposta/{id}").buildAndExpand(proposta.getId()).toUri();
             return ResponseEntity.created(uri).body(new PropostaDTO(proposta));

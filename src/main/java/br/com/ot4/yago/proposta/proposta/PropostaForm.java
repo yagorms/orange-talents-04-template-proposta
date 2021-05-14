@@ -1,5 +1,6 @@
 package br.com.ot4.yago.proposta.proposta;
 
+import br.com.ot4.yago.proposta.cartao.Cartao;
 import br.com.ot4.yago.proposta.validator.CPForCNPJ;
 
 import javax.validation.constraints.Email;

@@ -49,4 +49,5 @@ public class PropostaDTO {
     public EstadoProposta getEstadoProposta() {
         return estadoProposta;
     }
+
 }

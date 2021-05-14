@@ -18,7 +18,8 @@ public class VerificaRestricaoResponse {
     public VerificaRestricaoResponse() {
     }
 
-    public VerificaRestricaoResponse(@NotBlank String documento, @NotBlank String nome, @NotBlank String resultadoSolicitacao, @NotNull Long idProposta) {
+    public VerificaRestricaoResponse(@NotBlank String documento, @NotBlank String nome,
+                                     @NotBlank String resultadoSolicitacao, @NotNull Long idProposta) {
         this.documento = documento;
         this.nome = nome;
         this.resultadoSolicitacao = resultadoSolicitacao;

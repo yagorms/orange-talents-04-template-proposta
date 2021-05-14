@@ -1,5 +1,7 @@
 package br.com.ot4.yago.proposta.proposta;
 
+import br.com.ot4.yago.proposta.cartao.Cartao;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 
@@ -16,6 +18,8 @@ public class Proposta {
     private BigDecimal salario;
     @Enumerated(EnumType.STRING)
     private EstadoProposta estadoProposta = EstadoProposta.NAO_ANALISADO;
+    @OneToOne(cascade = CascadeType.ALL)
+    public Cartao cartao;
 
     @Deprecated
     public Proposta() {
@@ -31,6 +35,10 @@ public class Proposta {
 
     public void setEstadoProposta(EstadoProposta estadoProposta) {
         this.estadoProposta = estadoProposta;
+    }
+
+    public void setCartao(Cartao cartao) {
+        this.cartao = cartao;
     }
 
     public Long getId() {
@@ -59,5 +67,9 @@ public class Proposta {
 
     public EstadoProposta getEstadoProposta() {
         return estadoProposta;
+    }
+
+    public Cartao getCartao() {
+        return cartao;
     }
 }
