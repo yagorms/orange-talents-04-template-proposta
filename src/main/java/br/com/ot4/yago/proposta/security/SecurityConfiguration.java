@@ -15,12 +15,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception{
         http.authorizeRequests(authorizeRequests ->
                 authorizeRequests
-                        .antMatchers(HttpMethod.GET, "/proposta/**").hasAuthority("SCOPE_proposta")
-                        .antMatchers(HttpMethod.POST, "/proposta/**").hasAuthority("SCOPE_proposta")
-                        .antMatchers(HttpMethod.GET, "/biometria/**").hasAuthority("SCOPE_biometria")
-                        .antMatchers(HttpMethod.POST, "/biometria/**").hasAuthority("SCOPE_biometria")
-                        .antMatchers(HttpMethod.GET, "/cartoes/**").hasAuthority("SCOPE_cartoes")
-                        .antMatchers(HttpMethod.POST, "/cartoes/**").hasAuthority("SCOPE_cartoes")
+                        .antMatchers(HttpMethod.GET, "/proposta/**").hasAuthority("SCOPE_meu-primeiro-escopo")
+                        .antMatchers(HttpMethod.POST, "/proposta/**").hasAuthority("SCOPE_meu-primeiro-escopo")
+                        .antMatchers(HttpMethod.GET, "/biometria/**").hasAuthority("SCOPE_meu-primeiro-escopo")
+                        .antMatchers(HttpMethod.POST, "/biometria/**").hasAuthority("SCOPE_meu-primeiro-escopo")
+                        .antMatchers(HttpMethod.GET, "/cartoes/**").hasAuthority("SCOPE_meu-primeiro-escopo")
+                        .antMatchers(HttpMethod.POST, "/cartoes/**").hasAuthority("SCOPE_meu-primeiro-escopo")
                         .anyRequest().authenticated()
         )
                 .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
