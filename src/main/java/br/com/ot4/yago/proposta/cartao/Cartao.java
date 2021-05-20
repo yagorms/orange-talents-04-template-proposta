@@ -15,6 +15,7 @@ public class Cartao {
     private LocalDateTime emitidoEm;
     private String titular;
     private BigDecimal limite;
+    private String status;
     @OneToOne(cascade = CascadeType.ALL)
     private Bloqueio bloqueio;
 
@@ -53,7 +54,15 @@ public class Cartao {
         return bloqueio;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
     public void setBloqueio(Bloqueio bloqueio) {
         this.bloqueio = bloqueio;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
