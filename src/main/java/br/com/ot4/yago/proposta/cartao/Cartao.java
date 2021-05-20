@@ -1,9 +1,8 @@
 package br.com.ot4.yago.proposta.cartao;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import br.com.ot4.yago.proposta.bloqueio.Bloqueio;
+
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -16,6 +15,8 @@ public class Cartao {
     private LocalDateTime emitidoEm;
     private String titular;
     private BigDecimal limite;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Bloqueio bloqueio;
 
     @Deprecated
     public Cartao() {
@@ -46,5 +47,13 @@ public class Cartao {
 
     public BigDecimal getLimite() {
         return limite;
+    }
+
+    public Bloqueio getBloqueio() {
+        return bloqueio;
+    }
+
+    public void setBloqueio(Bloqueio bloqueio) {
+        this.bloqueio = bloqueio;
     }
 }
