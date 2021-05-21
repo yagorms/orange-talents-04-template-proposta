@@ -1,5 +1,6 @@
 package br.com.ot4.yago.proposta.cartao;
 
+import br.com.ot4.yago.proposta.avisoViagem.AvisoViagem;
 import br.com.ot4.yago.proposta.bloqueio.Bloqueio;
 
 import javax.persistence.*;
@@ -18,6 +19,8 @@ public class Cartao {
     private String status;
     @OneToOne(cascade = CascadeType.ALL)
     private Bloqueio bloqueio;
+    @OneToOne(cascade = CascadeType.ALL)
+    private AvisoViagem avisoViagem;
 
     @Deprecated
     public Cartao() {
@@ -54,15 +57,15 @@ public class Cartao {
         return bloqueio;
     }
 
-    public String getStatus() {
-        return status;
-    }
+    public String getStatus() { return status; }
+
+    public AvisoViagem getAvisoViagem() { return avisoViagem; }
 
     public void setBloqueio(Bloqueio bloqueio) {
         this.bloqueio = bloqueio;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
+    public void setStatus(String status) { this.status = status; }
+
+    public void setAvisoViagem(AvisoViagem avisoViagem) { this.avisoViagem = avisoViagem; }
 }
