@@ -1,5 +1,6 @@
 package br.com.ot4.yago.proposta.proposta;
 
+import br.com.ot4.yago.proposta.meter.MinhasMetricas;
 import br.com.ot4.yago.proposta.proposta.Feign.RestricaoClient;
 import br.com.ot4.yago.proposta.proposta.Feign.VerificaRestricaoRequest;
 import feign.FeignException;
@@ -25,8 +26,10 @@ public class PropostaSalvaController {
     @Autowired
     private RestricaoClient restricaoClient;
 
-    @PostMapping
+    @Autowired
+    private MinhasMetricas minhasMetricas;
 
+    @PostMapping
     public ResponseEntity<?> cadastrar (@RequestBody @Valid PropostaForm form, UriComponentsBuilder uriComponentsBuilder){
         Proposta proposta = form.converter(propostaRepository);
 
@@ -52,6 +55,8 @@ public class PropostaSalvaController {
                 }
             }
             propostaRepository.save(proposta);
+
+            minhasMetricas.meuContador();
 
             URI uri = uriComponentsBuilder.path("/proposta/{id}").buildAndExpand(proposta.getId()).toUri();
             return ResponseEntity.created(uri).body(new PropostaDTO(proposta));
