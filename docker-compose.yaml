@@ -82,26 +82,26 @@ services:
       LOG_LEVEL: INFO
       JAEGER_ENDPOINT: http://jaeger:14268/api/traces
 
-  propostas:
-    build:
-      dockerfile: Dockerfile
-      context: .
-    image: proposta
-    restart: on-failure
-    container_name: proposta
-    ports:
-    - "8080:8080"
-    depends_on:
-      - analise
-      - contas
-    environment:
-      ANALISES_URL: http://analise:9999/api/solicitacao
-      CARTOES_URL: http://contas:8888/api/cartoes
-      MYSQL_HOST: jdbc:mysql://mysql:3306/desafio_proposta?createDatabaseIfNotExist=true
-      DATABASE_USER: root
-      DATABASE_PASSWORD: root
-      KEYCLOAK_ISSUER_URI: http://keycloak:18080/auth/realms/nosso-cartao
-      KEYCLOAK_JWKS_URI: http://keycloak:18080/auth/realms/nosso-cartao/protocol/openid-connect/certs
+#  propostas:
+#    build:
+#      dockerfile: Dockerfile
+#      context: .
+#    image: proposta
+#    restart: on-failure
+#    container_name: proposta
+#    ports:
+#    - "8080:8080"
+#    depends_on:
+#      - analise
+#      - contas
+#    environment:
+#      ANALISES_URL: http://analise:9999/api/solicitacao
+#      CARTOES_URL: http://contas:8888/api/cartoes
+#      MYSQL_HOST: jdbc:mysql://mysql:3306/desafio_proposta?createDatabaseIfNotExist=true
+#      DATABASE_USER: root
+#      DATABASE_PASSWORD: root
+#      KEYCLOAK_ISSUER_URI: http://keycloak:18080/auth/realms/nosso-cartao
+#      KEYCLOAK_JWKS_URI: http://keycloak:18080/auth/realms/nosso-cartao/protocol/openid-connect/certs
 
   mysql:
     image: 'mysql:5.7'

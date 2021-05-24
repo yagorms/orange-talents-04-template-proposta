@@ -1,7 +1,10 @@
 package br.com.ot4.yago.proposta.avisoViagem;
 
+import br.com.ot4.yago.proposta.avisoViagem.feign.AvisoViagemClient;
+import br.com.ot4.yago.proposta.avisoViagem.feign.AvisoViagemRequest;
 import br.com.ot4.yago.proposta.cartao.Cartao;
 import br.com.ot4.yago.proposta.cartao.CartaoRepository;
+import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +24,9 @@ public class AvisoViagemController {
     @Autowired
     private CartaoRepository cartaoRepository;
 
+    @Autowired
+    private AvisoViagemClient avisoViagemClient;
+
     @PostMapping("/{numeroCartao}")
     public ResponseEntity<?> avisoViagem(@PathVariable("numeroCartao") String numeroCartao,
                                          @RequestHeader(value = "User-Agent") String userAgent,
@@ -34,12 +40,19 @@ public class AvisoViagemController {
 
         if (possivelCartao.isPresent()){
 
-            AvisoViagem avisoViagem = form.converter(ipClient, userAgent, possivelCartao.get());
-            avisoViagemRepository.save(avisoViagem);
-            possivelCartao.get().setAvisoViagem(avisoViagem);
-            cartaoRepository.save(possivelCartao.get());
+            try {
 
-            return ResponseEntity.ok().build();
+                avisoViagemClient.notificaAvisoViagem(numeroCartao, new AvisoViagemRequest(form));
+                AvisoViagem avisoViagem = form.converter(ipClient, userAgent, possivelCartao.get());
+                avisoViagemRepository.save(avisoViagem);
+                possivelCartao.get().setAvisoViagem(avisoViagem);
+                cartaoRepository.save(possivelCartao.get());
+
+                return ResponseEntity.ok().build();
+
+            } catch (FeignException e){
+
+            }
         }
 
         return ResponseEntity.notFound().build();
