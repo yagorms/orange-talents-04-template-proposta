@@ -4,6 +4,8 @@ import br.com.ot4.yago.proposta.meter.MinhasMetricas;
 import br.com.ot4.yago.proposta.proposta.Feign.RestricaoClient;
 import br.com.ot4.yago.proposta.proposta.Feign.VerificaRestricaoRequest;
 import feign.FeignException;
+import io.opentracing.Span;
+import io.opentracing.Tracer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +22,12 @@ import java.util.Optional;
 @RequestMapping("/proposta")
 public class PropostaSalvaController {
 
+    private final Tracer tracer;
+
+    public PropostaSalvaController(Tracer tracer){
+        this.tracer = tracer;
+    }
+
     @Autowired
     private PropostaRepository propostaRepository;
 
@@ -31,6 +39,12 @@ public class PropostaSalvaController {
 
     @PostMapping
     public ResponseEntity<?> cadastrar (@RequestBody @Valid PropostaForm form, UriComponentsBuilder uriComponentsBuilder){
+
+        Span activeSpan = tracer.activeSpan();
+        activeSpan.setTag("user.email", "yago@yago.com");
+        activeSpan.setBaggageItem("user.email", "yago@yago.com");
+        activeSpan.log("Meu log");
+
         Proposta proposta = form.converter(propostaRepository);
 
         Optional<Proposta> possivelProposta = propostaRepository.findByDocumento(form.getDocumento());
