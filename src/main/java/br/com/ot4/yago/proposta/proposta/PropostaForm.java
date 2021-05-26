@@ -1,7 +1,7 @@
 package br.com.ot4.yago.proposta.proposta;
 
-import br.com.ot4.yago.proposta.cartao.Cartao;
 import br.com.ot4.yago.proposta.validator.CPForCNPJ;
+import org.springframework.security.crypto.encrypt.Encryptors;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -58,6 +58,7 @@ public class PropostaForm {
     }
 
     public Proposta converter(PropostaRepository propostaRepository) {
+//        documento = Encryptors.text("${criptografia.password}", "7C8EF022EEC320E0").encrypt(documento);
         return new Proposta(documento, email, nome, endereco, salario);
     }
 }

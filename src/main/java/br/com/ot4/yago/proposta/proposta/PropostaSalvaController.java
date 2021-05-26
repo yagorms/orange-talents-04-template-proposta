@@ -40,10 +40,11 @@ public class PropostaSalvaController {
     @PostMapping
     public ResponseEntity<?> cadastrar (@RequestBody @Valid PropostaForm form, UriComponentsBuilder uriComponentsBuilder){
 
-        Span activeSpan = tracer.activeSpan();
-        activeSpan.setTag("user.email", "yago@yago.com");
-        activeSpan.setBaggageItem("user.email", "yago@yago.com");
-        activeSpan.log("Meu log");
+//*******Esta igual ao exemplo mas ao rodar da: activeSpan is null******
+//        Span activeSpan = tracer.activeSpan();
+//        activeSpan.setTag("user.email", "yago@yago.com");
+//        activeSpan.setBaggageItem("user.email", "yago@yago.com");
+//        activeSpan.log("Meu log");
 
         Proposta proposta = form.converter(propostaRepository);
 

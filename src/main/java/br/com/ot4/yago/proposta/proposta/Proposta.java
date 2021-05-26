@@ -1,6 +1,7 @@
 package br.com.ot4.yago.proposta.proposta;
 
 import br.com.ot4.yago.proposta.cartao.Cartao;
+import br.com.ot4.yago.proposta.security.Criptografia;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -11,6 +12,7 @@ public class Proposta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+//    @Convert(converter = Criptografia.class)
     private String documento;
     private String email;
     private String nome;
